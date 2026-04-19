@@ -70,11 +70,6 @@ g:hover {
     cursor: pointer;
 }
 
-svg {
-    width: 100%;
-    height: auto;
-}
-
 .roomList {
     overflow-y: scroll;
     box-sizing: border-box;
