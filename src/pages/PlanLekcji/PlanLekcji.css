@@ -1,4 +1,4 @@
-.majes_plan_lekcji {
+.planLekcji {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,15 +23,7 @@ header {
     gap: 50px;
 }
 
-.majes_header_choose__div {
-    width: 260px;
-    height: 120px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-.majes_header_choose_day__div {
+.header_dayChoice_container {
     height: 120px;
     width: 700px;
     margin-left: 200px;
@@ -39,7 +31,7 @@ header {
     flex-direction: column;
 }
 
-.majes_header_choose_day__bottom {
+.header_dayChoice_main {
     width: 700px;
     margin-top: 10px;
     display: flex;
@@ -48,7 +40,7 @@ header {
     align-items: center;
 }
 
-.majes_header_choose_day__days {
+.header_dayChoice_days {
     width: 622px;
     display: flex;
     flex-direction: row;
@@ -57,11 +49,11 @@ header {
     overflow-x: auto;
 }
 
-.majes_header_choose_day__days::-webkit-scrollbar {
+.header_dayChoice_days::-webkit-scrollbar {
     height: 0;
 }
 
-.majes_header_choose_day {
+.header_dayChoice {
     height: 76px;
     width: 76px;
     border-radius: 25px;
@@ -74,7 +66,7 @@ header {
     flex-shrink: 0;
 }
 
-.majes_header_choose_day p:nth-of-type(2) {
+.header_dayChoice p:nth-of-type(2) {
     font-weight: 450;
 
 }
@@ -84,11 +76,11 @@ main {
     width: 95%;
 }
 
-.majes_main_top {
+.topCaption {
     height: 50px;
 }
 
-.majes_main {
+.main {
     height: 600px;
     display: flex;
     flex-direction: row;
@@ -97,11 +89,11 @@ main {
 
 }
 
-.majes_main::-webkit-scrollbar {
+.main::-webkit-scrollbar {
     width: 0;
 }
 
-.majes_lesson__block {
+.lesson {
     height: 180px;
     width: 300px;
     border-radius: 20px;
@@ -115,30 +107,30 @@ main {
     font-size: 14px;
 }
 
-.majes_lesson__block img {
+.lesson img {
     height: 12px;
 }
 
-.majes_lesson_name {
+.lesson_name {
     height: 44px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
 }
 
-.majes_lesson_name p:nth-of-type(1) {
+.lesson_name p:nth-of-type(1) {
     font-size: 18px;
     font-weight: 500;
     height: 20px;
 }
 
-.majes_lesson_name p:nth-of-type(2) {
+.lesson_name p:nth-of-type(2) {
     font-size: 14px;
     font-weight: 300;
     height: 22px;
 }
 
-.majes_lesson_timeleft {
+.lesson_timeLeft {
     height: 50px;
     gap: 10px;
     display: flex;
@@ -148,11 +140,11 @@ main {
     font-weight: 400;
 }
 
-.majes_lesson_timeleft img {
+.lesson_timeLeft img {
     height: 18px;
 }
 
-.majes_lesson_teacher {
+.lesson_teacher {
     height: 24px;
     gap: 10px;
     display: flex;
@@ -160,7 +152,7 @@ main {
     align-items: center;
 }
 
-.majes_lesson_place {
+.lesson_room {
     height: 24px;
     gap: 10px;
     display: flex;
@@ -168,11 +160,11 @@ main {
     align-items: center;
 }
 
-.majes_lesson_place img:nth-of-type(2) {
+.lesson_room img:nth-of-type(2) {
     height: 4px;
 }
 
-.majes_lesson_hour {
+.lesson_hour {
     height: 24px;
     gap: 10px;
     display: flex;

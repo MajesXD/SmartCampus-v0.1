@@ -1,0 +1,10 @@
+const MapIcon = 
+({width = 15, height = 12, color = "white", className = "", onClick}) => 
+(<svg width={width} height={height} className={className} onClick={onClick}
+
+viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 2.29446V11.5709C0 11.8741 0.297656 12.0814 0.571354 11.9689L4.16667 10.2857V0L0.523958 1.49866C0.369317 1.56228 0.236753 1.67209 0.143362 1.81394C0.049971 1.95578 3.70367e-05 2.12315 0 2.29446ZM5 10.2857L10 12V1.71429L5 0V10.2857ZM14.4286 0.0310714L10.8333 1.71429V12L14.476 10.5013C14.6307 10.4378 14.7633 10.3279 14.8567 10.1861C14.9501 10.0442 15 9.87685 15 9.70554V0.429107C15 0.125893 14.7023 -0.0814286 14.4286 0.0310714Z" fill={color}/>
+</svg>
+)
+
+export default MapIcon;

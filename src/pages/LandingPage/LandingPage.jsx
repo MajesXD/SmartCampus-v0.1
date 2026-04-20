@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"; // Import komponentu Link
 const LandingPage = () => {
   return (
     <div>
-      <div className="welcomePage_topBAr"></div>
+      <div className="welcomePage_topBar"></div>
       <Link to="/" className="button">
         Powrót do strony głównej
       </Link>
