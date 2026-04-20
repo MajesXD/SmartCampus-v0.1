@@ -25,14 +25,14 @@ const List = ({ listButtonTop, listButtonBot, choices = [], onSelect }) => {
   return (
     <section>
       <div
-        className="list_choose"
+        className="list"
         onClick={() => setActive((prev) => !prev)}
         ref={listButtonRef}
       >
-        <div className="list_choose-chosen">
-          <div className="list_choose-chosen-info">
+        <div className="list_main">
+          <div className="list_main_info">
             <p>{listButtonTop}</p>
-            <div className="list_choose-chosen-info_separate">
+            <div className="list_main_info_part">
               <p>{listButtonBot}</p>
             </div>
           </div>
@@ -43,7 +43,7 @@ const List = ({ listButtonTop, listButtonBot, choices = [], onSelect }) => {
       </div>
 
       {active && (
-        <div className="list_list" ref={listRef}>
+        <div className="list_expanded" ref={listRef}>
           {choices.map((option, index) => (
             <div
               className="list_choice"

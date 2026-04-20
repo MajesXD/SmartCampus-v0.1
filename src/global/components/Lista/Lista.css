@@ -1,4 +1,4 @@
-.list_choose {
+.list {
     height: 80px;
     width: 260px;
     border-radius: 20px;
@@ -14,12 +14,12 @@
     padding: 10px;
 }
 
-.list_choose-chosen {
+.list_main {
     display: flex;
     align-items: center;
 }
 
-    .list_choose-chosen-info {
+    .list_main_info {
         font-size: 14px;
         height: 76px;
         width: 210px;
@@ -28,13 +28,13 @@
         justify-content: center;
     }
 
-    .list_choose-chosen-info_separate {
+    .list_main_info_part {
         display: flex;
         flex-direction: row;
         font-weight: 200;
     }
 
-.list_list {
+.list_expanded {
     position: absolute;
     margin-top: 10px;
     height: auto;
@@ -54,7 +54,7 @@
     animation: expandList 0.2s ease-in-out;
 }
 
-.list_list::-webkit-scrollbar {
+.list_expanded::-webkit-scrollbar {
     width: 0px;
 }
 
