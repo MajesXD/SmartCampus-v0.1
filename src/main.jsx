@@ -25,7 +25,7 @@ function AppWrapper() {
       <Routes>
         <Route path="/Panel" element={<Panel />} />
         <Route path="/MapaKampusu" element={<MapaKampusu />} />
-        <Route path="/pages/Elearning" element={<Elearning />} />
+        <Route path="/Elearning" element={<Elearning />} />
         <Route path="/Feed" element={<Feed />} />
         <Route path="/PlanLekcji" element={<PlanLekcji />} />
         <Route path="/Ustawienia" element={<Ustawienia />} />
