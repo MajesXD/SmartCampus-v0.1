@@ -14,6 +14,7 @@ import Ustawienia from './pages/settings/settings.jsx';
 import VideoManager from './pages/Elearning/VideoManager.jsx';
 
 
+
 function AppWrapper() {
   const location = useLocation();
   const isStartPage = location.pathname === '/LandingPage';
