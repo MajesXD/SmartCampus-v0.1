@@ -2,7 +2,7 @@
 
 :root {
     scroll-behavior: smooth;
-    color-scheme: light dark ;
+    color-scheme: light dark;
 }
 
 a,
@@ -54,46 +54,68 @@ body {
     height: 100px;
     width: 100%;
     padding: 0px 20px;
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(80px);
-    -webkit-backdrop-filter: blur(80px);
+    background-color: white;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
 }
 
-
+/*remont*/
 .navbar_navigationBar {
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #183447;
-    height: 60px;
-    border-radius: 20px;
-    padding: 5px 10px;
+    height: 54px;
+    width: max-content;
+    border-radius: 1000px;
+    padding: 11px;
+    gap: 4px;
+    position: relative;
 }
 
 
 .navbar_button {
-    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1000px;
     box-sizing: border-box;
     color: #fff;
-    padding: 10px 15px;
-    margin: 5px;
+    height: 32px;
+    width: max-content;
+    padding: 0 12px;
+    transition: color 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .navbar_button:hover {
-    background-color: white;
-    color: #183447;
     cursor: pointer;
+    outline: 1px solid white;
 }
 
 .navbar_button--active {
-    border-radius: 10px;
-    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1000px;
     color: #183447 !important;
-    padding: 10px 15px;
-    margin: 5px;
+    height: 32px;
+    width: max-content;
+    padding: 0 12px;
+    position: relative;
+    z-index: 2;
+    transition: color 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.navbar_activeIndicator {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 1000px;
+    height: 32px;
+    top: 11px;
+    left: 0;
+    z-index: 1;
 }
 
 .navbar_logo {
@@ -196,9 +218,7 @@ body {
     position: fixed;
     top: 90px;
     right: 20px;
-    background-color: rgba(24, 52, 71, 0.4);
-    backdrop-filter: blur(40px);
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: #183447;
     border-radius: 20px;
     padding: 10px;
     display: flex;
@@ -331,55 +351,52 @@ body {
     font-weight: 300;
 }
 
-.navbar_userMenu_settingsSection{
+.navbar_userMenu_settingsSection {
     margin-top: 20px;
 }
 
-.navbar_userMenu_toogleButton{
+.navbar_userMenu_toogleButton {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.navbar_userMenu_toogleButton_title{
+.navbar_userMenu_toogleButton_title {}
 
-}
-
-.navbar_userMenu_toogleButton_switch{
-
-}
+.navbar_userMenu_toogleButton_switch {}
 
 .switch {
-  width: 60px;
-  height: 30px;
-  border-radius: 999px;
-  background-color: #ccc;
-  position: relative;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    width: 60px;
+    height: 30px;
+    border-radius: 999px;
+    background-color: #ccc;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+
 .switch--active {
-  background-color: #183447;
+    background-color: #183447;
 }
 
 .switch:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .slider {
-  width: 26px;
-  height: 26px;
-  background-color: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  transition: left 0.3s ease;
+    width: 26px;
+    height: 26px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: left 0.3s ease;
 }
 
 .slider.on {
-  left: 32px;
-  background-color: white; 
+    left: 32px;
+    background-color: white;
 }
 
 .navbar_userMenu_button {
@@ -404,14 +421,14 @@ body {
     cursor: pointer;
 }
 
-.navbar_userMenu_bottomSection{
+.navbar_userMenu_bottomSection {
     display: flex;
     justify-content: space-between;
     padding: 5px 0;
     user-select: none;
 }
 
-.navbar_userMenu_bottomSection_WUbutton{
+.navbar_userMenu_bottomSection_WUbutton {
     background-color: #183447;
     height: 44px;
     outline: none;
@@ -422,12 +439,12 @@ body {
     width: 200px;
 }
 
-.navbar_userMenu_bottomSection_WUbutton:hover{
+.navbar_userMenu_bottomSection_WUbutton:hover {
     cursor: pointer;
     background-color: #183447c6;
 }
 
-.navbar_userMenu_bottomSection_Legitymacja{
+.navbar_userMenu_bottomSection_Legitymacja {
     background-color: #4F6267;
     height: 44px;
     outline: none;
@@ -438,7 +455,7 @@ body {
     width: 80px;
 }
 
-.navbar_userMenu_bottomSection_Legitymacja:hover{
+.navbar_userMenu_bottomSection_Legitymacja:hover {
     cursor: pointer;
     background-color: #4f6267cd;
 }

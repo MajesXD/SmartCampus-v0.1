@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { auth } from "/src/firebase.js";
 import { createPortal } from "react-dom";
 import ToggleSwitch from "/src/global/components/ToggleSwitch/ToggleSwitch.jsx";
 import { toggleColorScheme } from '../../scripts/changeColorScheme.js';
+import { motion } from "framer-motion";
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -17,6 +18,14 @@ function NavBar() {
   const menuRef = useRef(null);   // ref do menu
   const buttonRef = useRef(null); // ref do przycisku
   const [isDark, setIsDark] = useState(false); // tryb ciemny
+  const location = useLocation();
+  const navRefs = useRef({});
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+  const [scale, setScale] = useState({ x: 1, y: 1 });
+  const [blur, setBlur] = useState(0);
+  const animationTimeoutRef = useRef(null);
+  const blurTimeoutRef = useRef(null);
+  const prevLeftRef = useRef(0);
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -42,6 +51,53 @@ function NavBar() {
     });
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const activeElement = navRefs.current[location.pathname];
+    if (activeElement) {
+      const newLeft = activeElement.offsetLeft;
+
+      // Trigger scale and blur animation when position changes
+      if (prevLeftRef.current !== newLeft) {
+        setScale({ x: 1.08, y: 1.2 });
+      
+
+        // Clear previous timeouts
+        if (animationTimeoutRef.current) {
+          clearTimeout(animationTimeoutRef.current);
+        }
+        if (blurTimeoutRef.current) {
+          clearTimeout(blurTimeoutRef.current);
+        }
+
+        // Return to normal scale after animation completes
+        animationTimeoutRef.current = setTimeout(() => {
+          setScale({ x: 1, y: 1 });
+        }, 450);
+
+        // Reduce blur smoothly during the animation
+        blurTimeoutRef.current = setTimeout(() => {
+          setBlur(0);
+        }, 450);
+
+        prevLeftRef.current = newLeft;
+      }
+
+      setUnderlineStyle({
+        left: newLeft,
+        width: activeElement.offsetWidth,
+      });
+    }
+
+    return () => {
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+      if (blurTimeoutRef.current) {
+        clearTimeout(blurTimeoutRef.current);
+      }
+    };
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -79,11 +135,58 @@ function NavBar() {
       </Link>
 
       <nav className="navbar_navigationBar">
-        <NavLink to="/Panel" className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}>Panel</NavLink>
-        <NavLink to="/PlanLekcji" className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}>Plan lekcji</NavLink>
-        <NavLink to="/MapaKampusu" className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}>Mapa kampusu</NavLink>
-        <NavLink to="/Elearning" className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}>E-learning</NavLink>
-        <NavLink to="/Feed" className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}>Feed</NavLink>
+        <NavLink
+          ref={el => navRefs.current["/Panel"] = el}
+          to="/Panel"
+          className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
+        >
+          Panel
+        </NavLink>
+        <NavLink
+          ref={el => navRefs.current["/PlanLekcji"] = el}
+          to="/PlanLekcji"
+          className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
+        >
+          Plan lekcji
+        </NavLink>
+        <NavLink
+          ref={el => navRefs.current["/MapaKampusu"] = el}
+          to="/MapaKampusu"
+          className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
+        >
+          Mapa kampusu
+        </NavLink>
+        <NavLink
+          ref={el => navRefs.current["/Elearning"] = el}
+          to="/Elearning"
+          className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
+        >
+          E-learning
+        </NavLink>
+        <NavLink
+          ref={el => navRefs.current["/Feed"] = el}
+          to="/Feed"
+          className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
+        >
+          Feed
+        </NavLink>
+        <motion.div
+          className="navbar_activeIndicator"
+          animate={{
+            left: underlineStyle.left,
+            width: underlineStyle.width,
+            scaleX: scale.x,
+            scaleY: scale.y,
+            filter: `blur(${blur}px)`,
+          }}
+          transition={{
+            left: { type: "spring", stiffness: 380, damping: 40 },
+            width: { type: "spring", stiffness: 380, damping: 40 },
+            scaleX: { type: "spring", stiffness: 200, damping: 20 },
+            scaleY: { type: "spring", stiffness: 200, damping: 20 },
+            filter: { duration: 0.2 },
+          }}
+        />
       </nav>
 
       {!user ? (
@@ -146,7 +249,7 @@ function NavBar() {
                       <ToggleSwitch
                         id="darkMode"
                         onToggle={() => {
-                          
+
                         }}
                       />
                     </div>
@@ -156,9 +259,9 @@ function NavBar() {
                   <Link to="/videomanager"><button className="navbar_userMenu_button">Wideo Manager</button></Link>
                   <Link to="/ustawienia"><button className="navbar_userMenu_button">Settings (tymczasowe)</button></Link>
                 </section>
-                <section className="navbar_userMenu_bottomSection"> 
-                        <a href="https://wu.pansim.edu.pl/wu/start?&locale=pl" target="_blank"><button className="navbar_userMenu_bottomSection_WUbutton">Wirtualna Uczelnia</button></a>
-                        <button className="navbar_userMenu_bottomSection_Legitymacja"><i class="fa-solid fa-id-card"></i></button>
+                <section className="navbar_userMenu_bottomSection">
+                  <a href="https://wu.pansim.edu.pl/wu/start?&locale=pl" target="_blank"><button className="navbar_userMenu_bottomSection_WUbutton">Wirtualna Uczelnia</button></a>
+                  <button className="navbar_userMenu_bottomSection_Legitymacja"><i class="fa-solid fa-id-card"></i></button>
                 </section>
               </div>,
               document.getElementById("dropdown-root")
