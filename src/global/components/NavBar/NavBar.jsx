@@ -124,6 +124,8 @@ function NavBar() {
   const getEmailPrefix = (user) =>
     user?.email ? user.email.split("@")[0] : "";
 
+  const isSettings = location.pathname === "/ustawienia";
+  
   return (
     <section className="navbar_section">
       <Link to="/" className="navbar_logo">
@@ -171,7 +173,7 @@ function NavBar() {
           Feed
         </NavLink>
         <motion.div
-          className="navbar_activeIndicator"
+            className={isSettings ? "navbar_activeIndicator hidden" : "navbar_activeIndicator"}
           animate={{
             left: underlineStyle.left,
             width: underlineStyle.width,
@@ -226,7 +228,13 @@ function NavBar() {
                   </div>
                   <div className="navbar_userMenu_topSection_right">
                     <button className="navbar_userMenu_topSection_button"><i class="fa-solid fa-bell"></i></button>
-                    <button className="navbar_userMenu_topSection_button"><i class="fa-solid fa-gear"></i></button>
+                    <Link
+                      ref={el => navRefs.current["/ustawienia"] = el}
+                      to="/ustawienia"
+                      className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
+                      >
+                      <button className="navbar_userMenu_topSection_button"><i class="fa-solid fa-gear"></i></button>
+                    </Link>
                     <button className="navbar_userMenu_topSection_button" onClick={handleLogout}><i class="fa-solid fa-right-from-bracket"></i></button>
 
                   </div>

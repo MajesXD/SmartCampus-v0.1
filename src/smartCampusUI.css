@@ -117,6 +117,9 @@ body {
     left: 0;
     z-index: 1;
 }
+.hidden {
+    display: none;
+}
 
 .navbar_logo {
     display: flex;
