@@ -1,10 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { auth } from "/src/firebase.js";
 import { createPortal } from "react-dom";
 import ToggleSwitch from "/src/global/components/ToggleSwitch/ToggleSwitch.jsx";
 import { toggleColorScheme } from '../../scripts/changeColorScheme.js';
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import * as Icons from '../../../global/icons'
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -14,6 +16,7 @@ import {
 
 function NavBar() {
   const [user, setUser] = useState(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);   // ref do menu
   const buttonRef = useRef(null); // ref do przycisku
@@ -23,6 +26,7 @@ function NavBar() {
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
   const [scale, setScale] = useState({ x: 1, y: 1 });
   const [blur, setBlur] = useState(0);
+  const [isInitialRender, setIsInitialRender] = useState(true);
   const animationTimeoutRef = useRef(null);
   const blurTimeoutRef = useRef(null);
   const prevLeftRef = useRef(0);
@@ -48,19 +52,27 @@ function NavBar() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setIsAuthLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
+  // Mark initial render as complete after auth loads and first effect
   useEffect(() => {
+    if (!isAuthLoading) {
+      setIsInitialRender(false);
+    }
+  }, [isAuthLoading]);
+
+  useLayoutEffect(() => {
     const activeElement = navRefs.current[location.pathname];
     if (activeElement) {
       const newLeft = activeElement.offsetLeft;
 
-      // Trigger scale and blur animation when position changes
-      if (prevLeftRef.current !== newLeft) {
+      // Trigger scale and blur animation when position changes (but not on initial mount)
+      if (!isInitialRender && prevLeftRef.current !== newLeft) {
         setScale({ x: 1.08, y: 1.2 });
-      
+
 
         // Clear previous timeouts
         if (animationTimeoutRef.current) {
@@ -79,9 +91,9 @@ function NavBar() {
         blurTimeoutRef.current = setTimeout(() => {
           setBlur(0);
         }, 450);
-
-        prevLeftRef.current = newLeft;
       }
+
+      prevLeftRef.current = newLeft;
 
       setUnderlineStyle({
         left: newLeft,
@@ -97,7 +109,7 @@ function NavBar() {
         clearTimeout(blurTimeoutRef.current);
       }
     };
-  }, [location.pathname]);
+  }, [location.pathname, isInitialRender]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -126,13 +138,13 @@ function NavBar() {
 
   return (
     <section className="navbar_section">
-      <Link to="/" className="navbar_logo">
-        <div className="navbar_logo_icon" />
+      <div className="navbar_logo">
+        <img src={Icons.SmartCampusLogo} alt="logo" className="navbar_logo_icon" />
         <div className="navbar_logo_wrapper">
           <div className="navbar_logo_wrapper_topText">Smart</div>
           <div className="navbar_logo_wrapper_bottomText">Campus</div>
         </div>
-      </Link>
+      </div>
 
       <nav className="navbar_navigationBar">
         <NavLink
@@ -140,35 +152,50 @@ function NavBar() {
           to="/Panel"
           className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
         >
-          Panel
+          <div className="navbar_buttonContent">
+            <FontAwesomeIcon icon={Icons.faSolarPanel} className="navbar_buttonContent_icon" />
+            <div className="navbar_buttonContent_text">Panel</div>
+          </div>
         </NavLink>
         <NavLink
           ref={el => navRefs.current["/PlanLekcji"] = el}
           to="/PlanLekcji"
           className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
         >
-          Plan lekcji
+          <div className="navbar_buttonContent">
+            <FontAwesomeIcon icon={Icons.faCalendarDays} className="navbar_buttonContent_icon" />
+            <div className="navbar_buttonContent_text">Plan lekcji</div>
+          </div>
         </NavLink>
         <NavLink
           ref={el => navRefs.current["/MapaKampusu"] = el}
           to="/MapaKampusu"
           className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
         >
-          Mapa kampusu
+          <div className="navbar_buttonContent">
+            <FontAwesomeIcon icon={Icons.faMap} className="navbar_buttonContent_icon" />
+            <div className="navbar_buttonContent_text">Mapa kampusu</div>
+          </div>
         </NavLink>
         <NavLink
           ref={el => navRefs.current["/Elearning"] = el}
           to="/Elearning"
           className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
         >
-          E-learning
+          <div className="navbar_buttonContent">
+            <FontAwesomeIcon icon={Icons.faPhotoFilm} className="navbar_buttonContent_icon" />
+            <div className="navbar_buttonContent_text">E-learning</div>
+          </div>
         </NavLink>
         <NavLink
           ref={el => navRefs.current["/Feed"] = el}
           to="/Feed"
           className={({ isActive }) => isActive ? "navbar_button--active" : "navbar_button"}
         >
-          Feed
+          <div className="navbar_buttonContent">
+            <FontAwesomeIcon icon={Icons.faLaptop} className="navbar_buttonContent_icon" />
+            <div className="navbar_buttonContent_text">Feed</div>
+          </div>
         </NavLink>
         <motion.div
           className="navbar_activeIndicator"
@@ -180,8 +207,8 @@ function NavBar() {
             filter: `blur(${blur}px)`,
           }}
           transition={{
-            left: { type: "spring", stiffness: 380, damping: 40 },
-            width: { type: "spring", stiffness: 380, damping: 40 },
+            left: isInitialRender ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 40 },
+            width: isInitialRender ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 40 },
             scaleX: { type: "spring", stiffness: 200, damping: 20 },
             scaleY: { type: "spring", stiffness: 200, damping: 20 },
             filter: { duration: 0.2 },
@@ -190,13 +217,26 @@ function NavBar() {
       </nav>
 
       {!user ? (
-        <button className="defaultButton" onClick={handleLogin}>Zaloguj</button>
+        <button className="defaultButton" onClick={handleLogin} style={{ opacity: isAuthLoading ? 0 : 1 }}>Zaloguj</button>
       ) : (
         <>
+          {isAuthLoading && (
+            <div
+              className="navbar_userBar"
+              style={{ opacity: 0, pointerEvents: 'none' }}
+            >
+              <div className="navbar_userBar_wrapper">
+                <div className="navbar_userBar_name">—</div>
+                <div className="navbar_userBar_mail">—</div>
+              </div>
+              <div className="navbar_userBar_profilePicture" />
+            </div>
+          )}
           <div
             ref={buttonRef}
             className={`navbar_userBar ${isMenuOpen ? "navbar_userBar--onFocus" : ""}`}
             onClick={toggleMenu}
+            style={{ display: isAuthLoading ? 'none' : 'flex' }}
           >
             <div className="navbar_userBar_wrapper">
               <div className="navbar_userBar_name">{trimUsername(user)}</div>

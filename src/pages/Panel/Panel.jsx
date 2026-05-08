@@ -5,18 +5,19 @@ import { faUser, faDog } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
 
 import * as Icons from '../../global/icons'
+import logo from '../../global/icons/PansimWydzialInz_flat_transparent.png'
 
 function Panel() {
   return (
-    <app class="">
-      <FontAwesomeIcon icon={faUser} className="icon" spin />
-      <FontAwesomeIcon icon={faDog} style={{ color: "rgb(177, 151, 252)", }} shake />
-      <FontAwesomeIcon icon={faTwitter} style={{ color: "rgb(10, 183, 246)", }} />
-
-      nowe ikonki jako obiekty
-      <FontAwesomeIcon icon={Icons.faUser} spin/>
-      <FontAwesomeIcon icon={Icons.faDog} />
-      <FontAwesomeIcon icon={Icons.faTwitter} />
+    <app class=""   style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    height: "100vh",
+  }}>
+      <img src={logo} alt="logo" />
+      <h1>Witaj w Smart Campus!</h1>
     </app>
   );
 }
